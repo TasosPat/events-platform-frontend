@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { setToken } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -13,7 +15,8 @@ export default function LoginPage() {
     setError("");
 
     try {
-      await login( email, password );
+      const token = await login( email, password );
+      setToken(token);
       navigate("/events"); // redirect after login
     } catch (err: any) {
       setError(err.response?.data?.msg || "Login failed");
