@@ -10,9 +10,9 @@ const api = axios.create({
 // Automatically attach token (if logged in)
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
-  console.log("Attaching token to request:", token);
   if (token && config.headers) config.headers.Authorization = `Bearer ${token}`;
   return config;
-});
+},
+(error) => Promise.reject(error));
 
 export default api;
