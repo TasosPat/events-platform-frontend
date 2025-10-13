@@ -3,7 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 
 export default function Navbar() {
   
-  const { isLoggedIn, logoutUser } = useAuth();
+  const { isLoggedIn, currentUser, logoutUser } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -20,6 +20,15 @@ export default function Navbar() {
         <Link to="/events" className="hover:text-blue-400">
           Events
         </Link>
+         {/* Only show Create Event for staff */}
+         {isLoggedIn && currentUser?.role === "staff" && (
+          <Link
+            to="/events/create"
+            className="bg-green-600 px-3 py-1 rounded hover:bg-green-700 transition"
+          >
+            Create Event
+          </Link>
+        )}
       </div>
 
       <div className="flex items-center space-x-4">
@@ -36,12 +45,20 @@ export default function Navbar() {
             </button>
           </>
         ) : (
+          <>
           <Link
             to="/login"
             className="bg-blue-600 px-3 py-1 rounded hover:bg-blue-700 transition"
           >
             Login
           </Link>
+          <Link
+            to="/register"
+            className="bg-blue-600 px-3 py-1 rounded hover:bg-blue-700 transition"
+            >
+              Register
+          </Link>
+          </>
         )}
       </div>
     </nav>
