@@ -20,3 +20,7 @@ export async function unattendEvent(id: number) {
   return res.data;
 }
 
+export async function getEventAttendees(id: number) {
+  const res = await api.get(`/attendances/events/${id}`);
+  return res.data;
+}
