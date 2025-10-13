@@ -5,6 +5,7 @@ import EventsPage from "./pages/Events";
 import AttendeesPage from "./pages/Attendees";
 import Navbar from "./components/Navbar";
 import Register from "./pages/Register";
+import CreateEventPage from "./pages/CreateEvent";
 import { useAuth } from "./context/AuthContext";
 
 function PrivateRoute({ children }: { children: JSX.Element }) {
