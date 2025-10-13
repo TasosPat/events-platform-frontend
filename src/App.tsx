@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import LoginPage from "./pages/Login";
 import EventsPage from "./pages/Events";
 import AttendeesPage from "./pages/Attendees";
-import Navbar from "./components/common/Navbar";
+import Navbar from "./components/Navbar";
 import Register from "./pages/Register";
 import { useAuth } from "./context/AuthContext";
 
