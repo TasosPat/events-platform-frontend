@@ -27,6 +27,11 @@ export async function getEventAttendees(id: number) {
 }
 
 export async function createEvent(eventData: NewEvent ) {
-  const res = await api.post(`/admin/create-staff`, eventData);
+  const res = await api.post(`/events`, eventData);
+  return res.data;
+}
+
+export async function addEventToCalendar(id: number ) {
+  const res = await api.get(`/calendar/auth/google?eventId=${id}`);
   return res.data;
 }
