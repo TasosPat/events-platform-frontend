@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getEvents, attendEvent, unattendEvent } from "../services/eventService";
+import { getEvents, attendEvent, unattendEvent, addEventToCalendar } from "../services/eventService";
 import { getCurrentUser, getMyAttendances } from "../services/userService";
 import { useNavigate } from "react-router-dom";
 
@@ -47,9 +47,25 @@ export default function EventsPage() {
     navigate(`/attendances/events/${eventId}`);
   };
   
-  const addToGoogleCalendar = (event: any) => {
-    alert(`Added "${event.title}" to your Google Calendar!`);
-    // TODO: Integrate Google Calendar API here later
+  const addToGoogleCalendar = async (event: any) => {
+    try {
+      const eventId = event.event_id;
+      const res = await addEventToCalendar(eventId);
+      console.log("Response from backend:", res); 
+      const url = res.url;
+  
+      if (url) {
+        window.open(url, "_blank");
+        alert(`Added "${event.title}" to your Google Calendar!`);
+      } else {
+        alert("Could not get Google Calendar link");
+      }
+      
+    }
+    catch (err) {
+    console.error("Failed to get Google auth URL:", err);
+    alert("Something went wrong while adding to calendar");
+  }
   };
 
   return (
