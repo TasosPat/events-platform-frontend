@@ -77,6 +77,9 @@ export default function EventsPage() {
           <div key={event.event_id}>
             <h3>{event.name}</h3>
             <p>{event.description}</p>
+            <button onClick={() => navigate(`/events/${event.event_id}`)}>
+              View Details
+            </button>
             <button onClick={() => handleToggleAttendance(event.event_id)}>{isAttending ? "Unattend" : "Attend"}</button>
             <button onClick={() => handleShowAttendees(event.event_id)}>View Attendees</button>
             {isAttending && (<button onClick={() => addToGoogleCalendar(event)}>Add to Calendar</button>)}
