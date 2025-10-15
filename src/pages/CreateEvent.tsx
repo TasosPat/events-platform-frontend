@@ -9,6 +9,8 @@ export default function CreateEventPage() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [location, setLocation] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -19,7 +21,7 @@ export default function CreateEventPage() {
     setLoading(true);
 
     try {
-      await createEvent({ title, description, date, location });
+      await createEvent({ title, description, date, location, start_time: startTime, end_time: endTime, });
       navigate("/events");
     } catch (err) {
       console.error("Create event error:", err);
@@ -53,10 +55,24 @@ export default function CreateEventPage() {
           required
         />
         <input
-          type="datetime-local"
+          type="date"
           className="w-full p-2 border rounded"
           value={date}
           onChange={(e) => setDate(e.target.value)}
+          required
+        />
+        <input
+          type="time"
+          className="w-full p-2 border rounded"
+          value={startTime}
+          onChange={(e) => setStartTime(e.target.value)}
+          required
+        />
+        <input
+          type="time"
+          className="w-full p-2 border rounded"
+          value={endTime}
+          onChange={(e) => setEndTime(e.target.value)}
           required
         />
         <input
