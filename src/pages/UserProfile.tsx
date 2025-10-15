@@ -1,16 +1,28 @@
 import { useEffect, useState } from "react";
-import { getMyAttendances } from "../services/userService";
+import { getMyAttendances, updateUser } from "../services/userService";
 import { unattendEvent } from "../services/eventService";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 export default function UserProfilePage() {
-  const { currentUser } = useAuth();
+  const { currentUser, setCurrentUser } = useAuth();
   const [attendingEvents, setAttendingEvents] = useState<any[]>([]);
+  const [editMode, setEditMode] = useState(false);
+  const [formData, setFormData] = useState({
+    displayName: "",
+    email: "",
+    description: "",
+});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!currentUser) return;
+      if (currentUser) {
+        setFormData({
+            displayName: currentUser.name || "",
+            email: currentUser.email || "",
+            description: currentUser.description || ""
+          });
+      }
       try {
         const myAttendances = await getMyAttendances(currentUser.user_id);
         setAttendingEvents(myAttendances);
@@ -31,6 +43,29 @@ export default function UserProfilePage() {
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSave = async () => {
+    try {
+      setLoading(true);
+      const updated = await updateUser({
+        displayName: formData.displayName,
+        email: formData.email,
+        description: formData.description,
+      });
+      alert("Profile updated successfully!");
+      setCurrentUser(updated.user)
+      setEditMode(false);
+    } catch (err) {
+      console.error("Error updating profile:", err);
+      alert("Failed to update profile");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (!currentUser) return <p className="text-center mt-10">Loading user info...</p>;
 
   return (
@@ -38,14 +73,60 @@ export default function UserProfilePage() {
       <h1 className="text-2xl font-bold mb-4 text-center">User Profile</h1>
 
       <div className="mb-6">
-        <p><strong>Name:</strong> {currentUser.name || "N/A"}</p>
-        <p><strong>Email:</strong> {currentUser.email}</p>
-        {currentUser.description && (<p><strong>Description:</strong> {currentUser.description}</p>)}
+        {editMode ? ( <input
+              type="text"
+              name="displayName"
+              value={formData.displayName}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+            />) : (<p><strong>Name:</strong> {currentUser.name || "N/A"}</p>)}
+        {editMode ? (
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+            />
+          ) : (<p><strong>Email:</strong> {currentUser.email}</p>)}
+        {editMode ? (<textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              className="w-full p-2 border rounded"
+              rows={3}
+            />) : (<p><strong>Description:</strong> {currentUser.description || "No description yet"}</p>)}
         <p><strong>Role:</strong> {currentUser.role}</p>
       </div>
 
       <h2 className="text-xl font-semibold mb-2">Events You're Attending:</h2>
       {attendingEvents.length === 0 && <p>You are not attending any events.</p>}
+
+      <div className="flex gap-3 mb-6">
+  {!editMode ? (
+    <button
+      onClick={() => setEditMode(true)}
+      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+    >
+      Edit Profile
+    </button>
+  ) : (
+    <>
+      <button
+        onClick={handleSave}
+        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+      >
+        Save Changes
+      </button>
+      <button
+        onClick={() => setEditMode(false)}
+        className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
+      >
+        Cancel
+      </button>
+    </>
+  )}
+</div>
 
       <ul>
         {attendingEvents.map((event) => (
