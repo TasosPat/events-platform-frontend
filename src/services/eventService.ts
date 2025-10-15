@@ -35,3 +35,13 @@ export async function addEventToCalendar(id: number ) {
   const res = await api.get(`/calendar/auth/google?eventId=${id}`);
   return res.data;
 }
+
+export async function deleteEvent(id: number ) {
+  const res = await api.delete(`/events/${id}`);
+  return res.data;
+}
+
+export async function editEvent(eventData: NewEvent, id: number ) {
+  const res = await api.patch(`/events/${id}`, eventData);
+  return res.data;
+}
