@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { getToken, logout } from "../services/authService";
 import { getCurrentUser } from "../services/userService";
+import { User } from "../types/user"
 
 interface AuthContextType {
   token: string | null;
   isLoggedIn: boolean;
   currentUser: any | null;
+  setCurrentUser: React.Dispatch<React.SetStateAction<User | null>>;
   setToken: (token: string | null) => void;
   logoutUser: () => void;
 }
@@ -40,7 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ token, isLoggedIn, currentUser, setToken, logoutUser }}>
+    <AuthContext.Provider value={{ token, isLoggedIn, currentUser, setCurrentUser, setToken, logoutUser }}>
       {children}
     </AuthContext.Provider>
   );
