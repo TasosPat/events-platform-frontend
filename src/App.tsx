@@ -6,6 +6,8 @@ import AttendeesPage from "./pages/Attendees";
 import Navbar from "./components/Navbar";
 import Register from "./pages/Register";
 import CreateEventPage from "./pages/CreateEvent";
+import EventDetailsPage from "./pages/EventDetails";
+import UserProfilePage from "./pages/UserProfile";
 import { useAuth } from "./context/AuthContext";
 
 function PrivateRoute({ children }: { children: JSX.Element }) {
@@ -21,6 +23,8 @@ export default function App() {
       <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/events/:eventId" element={<EventDetailsPage />} />
+      <Route path="/profile" element={<UserProfilePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
           path="/events"
