@@ -20,3 +20,13 @@ export async function getMyAttendances(id: number) {
     const res = await api.post("/users", data);
     return res.data;
   };
+
+  export async function updateUser(data: {
+    displayName?: string; 
+    email?: string; 
+    description?: string;
+  })
+  {
+    const res = await api.patch("/users", data);
+    return res.data;
+  }
