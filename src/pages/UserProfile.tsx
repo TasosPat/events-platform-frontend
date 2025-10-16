@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { getMyAttendances, updateUser } from "../services/userService";
 import { unattendEvent } from "../services/eventService";
 import { useAuth } from "../context/AuthContext";
+import { Field } from "../components/Field"
+import { EditButtons } from "../components/EditButtons"
 
 export default function UserProfilePage() {
   const { currentUser, setCurrentUser } = useAuth();
@@ -73,61 +75,24 @@ export default function UserProfilePage() {
       <h1 className="text-2xl font-bold mb-4 text-center">User Profile</h1>
 
       <div className="mb-6">
-        {editMode ? ( <input
-              type="text"
-              name="displayName"
-              value={formData.displayName}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-            />) : (<p><strong>Name:</strong> {currentUser.name || "N/A"}</p>)}
-        {editMode ? (
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-            />
-          ) : (<p><strong>Email:</strong> {currentUser.email}</p>)}
-        {editMode ? (<textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="w-full p-2 border rounded"
-              rows={3}
-            />) : (<p><strong>Description:</strong> {currentUser.description || "No description yet"}</p>)}
+      <Field label="Name" name="displayName" value={formData.displayName} editMode={editMode} onChange={handleChange} textarea />
+      <Field label="Email" name="email" value={formData.email} editMode={editMode} onChange={handleChange} textarea />
+      <Field label="Description" name="description" value={formData.description} editMode={editMode} onChange={handleChange} textarea />
         <p><strong>Role:</strong> {currentUser.role}</p>
       </div>
-
-      <h2 className="text-xl font-semibold mb-2">Events You're Attending:</h2>
-      {attendingEvents.length === 0 && <p>You are not attending any events.</p>}
-
       <div className="flex gap-3 mb-6">
-  {!editMode ? (
-    <button
-      onClick={() => setEditMode(true)}
-      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-    >
-      Edit Profile
-    </button>
-  ) : (
-    <>
-      <button
-        onClick={handleSave}
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-      >
-        Save Changes
-      </button>
-      <button
-        onClick={() => setEditMode(false)}
-        className="bg-gray-400 text-white px-4 py-2 rounded hover:bg-gray-500"
-      >
-        Cancel
-      </button>
-    </>
-  )}
-</div>
 
+      <EditButtons
+          editMode={editMode}
+          onEdit={() => setEditMode(true)}
+          onSave={handleSave}
+          onCancel={() => setEditMode(false)}
+          editLabel="Edit Profile"
+          saveLabel="Save Changes"
+        />
+</div>
+<h2 className="text-xl font-semibold mb-2">Events You're Attending:</h2>
+{attendingEvents.length === 0 && <p>You are not attending any events.</p>}
       <ul>
         {attendingEvents.map((event) => (
           <li key={event.event_id} className="mb-4 p-3 border rounded flex justify-between items-center">

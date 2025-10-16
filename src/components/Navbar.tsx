@@ -12,55 +12,68 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-gray-900 text-white px-6 py-3 flex items-center justify-between shadow-md">
+    <nav className="bg-white shadow-md">
+    <div className="max-w-6xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
+      {/* Left side: logo + main links */}
       <div className="flex items-center space-x-6">
-        <Link to="/" className="text-xl font-semibold hover:text-blue-400">
+        <Link
+          to="/"
+          className="text-xl font-bold text-gray-900 hover:text-gray-700 transition-colors duration-200"
+        >
           Eventify
         </Link>
-        <Link to="/events" className="hover:text-blue-400">
+        <Link
+          to="/events"
+          className="text-gray-700 hover:text-gray-900 transition-colors duration-200"
+        >
           Events
         </Link>
-         {/* Only show Create Event for staff */}
-         {isLoggedIn && currentUser?.role === "staff" && (
+        {isLoggedIn && currentUser?.role === "staff" && (
           <Link
             to="/events/create"
-            className="bg-green-600 px-3 py-1 rounded hover:bg-green-700 transition"
+            className="bg-gray-800 text-white px-3 py-1 rounded hover:bg-gray-900 transition-colors duration-200"
           >
             Create Event
           </Link>
         )}
       </div>
-
-      <div className="flex items-center space-x-4">
+  
+      {/* Right side: auth links */}
+      <div className="flex items-center space-x-4 mt-2 md:mt-0">
         {isLoggedIn ? (
           <>
-            <Link to="/profile" className="hover:text-blue-400">
+            <Link
+              to="/profile"
+              className="text-gray-700 hover:text-gray-900 transition-colors duration-200"
+            >
               Profile
             </Link>
             <button
               onClick={handleLogout}
-              className="bg-red-600 px-3 py-1 rounded hover:bg-red-700 transition"
+              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition-colors duration-200"
             >
               Logout
             </button>
           </>
         ) : (
           <>
-          <Link
-            to="/login"
-            className="bg-blue-600 px-3 py-1 rounded hover:bg-blue-700 transition"
-          >
-            Login
-          </Link>
-          <Link
-            to="/register"
-            className="bg-blue-600 px-3 py-1 rounded hover:bg-blue-700 transition"
+            <Link
+              to="/login"
+              className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition-colors duration-200"
+            >
+              Login
+            </Link>
+            <Link
+              to="/register"
+              className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition-colors duration-200"
             >
               Register
-          </Link>
+            </Link>
           </>
         )}
       </div>
-    </nav>
+    </div>
+  </nav>
+  
   );
 }

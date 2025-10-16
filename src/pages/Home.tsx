@@ -22,44 +22,50 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
-      <h1>Welcome to Eventify 🎉</h1>
-      <p>Find and attend events that matter to you.</p>
+    <div className="max-w-6xl mx-auto px-4 py-8 text-center">
+      <h1 className="text-4xl font-bold text-gray-900 mb-2">Welcome to Eventify 🎉</h1>
+      <p className="text-gray-700 mb-6">Find and attend events that matter to you.</p>
 
-      <div style={{ margin: "2rem 0" }}>
+      <div className="mb-8">
         {isLoggedIn ? (
-          <button onClick={() => navigate("/events")}>Browse All Events</button>
+          <button
+            onClick={() => navigate("/events")}
+            className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200"
+          >
+            Browse All Events
+          </button>
         ) : (
-          <button onClick={() => navigate("/login")}>Log In to Get Started</button>
+          <button
+            onClick={() => navigate("/login")}
+            className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors duration-200"
+          >
+            Log In to Get Started
+          </button>
         )}
       </div>
 
-      <h2>Featured Events</h2>
+      <h2 className="text-2xl font-semibold text-gray-900 mb-4">Featured Events</h2>
+
       {events.length === 0 ? (
-        <p>No upcoming events found.</p>
+        <p className="text-gray-600">No upcoming events found.</p>
       ) : (
-        <div style={{ display: "flex", justifyContent: "center", gap: "1rem" }}>
+        <div className="flex flex-wrap justify-center gap-6">
           {events.map((event) => (
             <div
               key={event.event_id}
-              style={{
-                border: "1px solid #ccc",
-                borderRadius: "10px",
-                padding: "1rem",
-                width: "250px",
-              }}
+              className="bg-white border border-gray-200 rounded-lg p-4 w-64 shadow hover:shadow-lg transition-shadow duration-200"
             >
-              <h3>{event.name}</h3>
-              <p>{event.description}</p>
-              <small>
-                {new Date(event.date).toLocaleDateString()} @ {event.time}
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">{event.title}</h3>
+              <p className="text-gray-700 mb-2">{event.description}</p>
+              <small className="text-gray-500">
+                {new Date(event.date).toLocaleDateString()} @ {event.start_time}
               </small>
             </div>
           ))}
         </div>
       )}
 
-      <footer style={{ marginTop: "3rem", fontSize: "0.9rem", color: "#666" }}>
+      <footer className="mt-12 text-gray-500 text-sm">
         © 2025 Eventify. All rights reserved.
       </footer>
     </div>

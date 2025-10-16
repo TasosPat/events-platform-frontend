@@ -26,20 +26,28 @@ export default function AttendeesPage() {
   }, [id]);
 
   return (
-    <div style={{ padding: "2rem", textAlign: "center" }}>
-      <h1>Attendees for {eventName}</h1>
-      {attendees.length === 0 ? (
-        <p>No attendees yet.</p>
-      ) : (
-        <ul style={{ listStyle: "none" }}>
-          {attendees.map((a) => (
-            <li key={a.user_id}>{a.name}{" "}
+    <div className="max-w-4xl mx-auto px-4 py-8">
+    <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">
+      Attendees for {eventName}
+    </h1>
+
+    {attendees.length === 0 ? (
+      <p className="text-gray-600 text-center">No attendees yet.</p>
+    ) : (
+      <ul className="space-y-3">
+        {attendees.map(a => (
+          <li
+            key={a.user_id}
+            className="bg-white border border-gray-200 rounded-lg p-3 shadow flex justify-between items-center"
+          >
+            <span className="text-gray-800 font-medium">{a.name}</span>
             {currentUser && a.user_id === currentUser.user_id && (
-            <span style={{ color: "gray", marginLeft: "0.3rem" }}>(You)</span>
-          )}</li>
-          ))}
-        </ul>
-      )}
-    </div>
+              <span className="text-gray-500 text-sm">(You)</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
   );
 }
