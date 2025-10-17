@@ -3,9 +3,11 @@ import { getEvents, attendEvent, unattendEvent, addEventToCalendar } from "../se
 import { getCurrentUser, getMyAttendances } from "../services/userService";
 import { useNavigate } from "react-router-dom";
 import { handleAddToGoogleCalendar } from "../components/googleCalendarHandler"
+import { EventCard } from "./EventCard";
 
 export default function EventsPage() {
-  const [events, setEvents] = useState<any[]>([]);
+  const [upcomingEvents, setUpcomingEvents] = useState<any[]>([]);
+  const [pastEvents, setPastEvents] = useState<any[]>([]);
   const [attendingIds, setAttendingIds] = useState<number[]>([]);
   const navigate = useNavigate();
   
@@ -18,8 +20,8 @@ export default function EventsPage() {
             getEvents(),
             getMyAttendances(user.user_id),
           ]);
-
-        setEvents(eventsData);
+        setUpcomingEvents(eventsData.upcoming);
+        setPastEvents(eventsData.past);
         setAttendingIds(myAttendances.map((e: any) => e.event_id));
       } catch (err) {
         console.error("Error fetching events or attendances:", err);
@@ -69,72 +71,52 @@ export default function EventsPage() {
   }
   };
 
-  return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Events</h2>
+  const handleViewDetails = (eventId: number) => {
+    navigate(`/events/${eventId}`);
+  };
+  
 
-      {events.length === 0 ? (
+return (
+  <div className="max-w-6xl mx-auto px-4 py-8">
+      {/* Upcoming Events */}
+      <h2 className="text-3xl font-bold text-gray-900 mb-6 text-center">Upcoming Events</h2>
+      {upcomingEvents.length === 0 ? (
         <p className="text-gray-600 text-center">No upcoming events found.</p>
       ) : (
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {events.map(event => {
-            const isAttending = attendingIds.includes(event.event_id);
-            return (
-              <div
-                key={event.event_id}
-                className="bg-white border border-gray-200 rounded-lg p-4 shadow hover:shadow-lg transition-shadow duration-200 flex flex-col justify-between"
-              >
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">{event.title}</h3>
-                  <p className="text-gray-700 mb-2">{event.description}</p>
-                  <p className="text-gray-500 text-sm mb-2">
-                    {new Date(event.date).toLocaleDateString()} @ {event.start_time} - {event.end_time}
-                  </p>
-                  <p className="text-gray-700 font-medium mb-2">
-                    {event.price ? `£${event.price}` : "Free"}
-                  </p>
-                </div>
+          {upcomingEvents.map((event) => (
+            <EventCard
+              key={event.event_id}
+              event={event}
+              isAttending={attendingIds.includes(event.event_id)}
+              handleToggleAttendance={handleToggleAttendance}
+              handleShowAttendees={handleShowAttendees}
+              handleViewDetails={handleViewDetails}
+              addToGoogleCalendar={handleAddToGoogleCalendar}
+            />
+          ))}
+        </div>
+      )}
 
-                <div className="flex flex-wrap gap-2 mt-4">
-                  <button
-                    onClick={() => navigate(`/events/${event.event_id}`)}
-                    className="px-3 py-1 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition-colors duration-200"
-                  >
-                    View Details
-                  </button>
-
-                  <button
-                    onClick={() => handleToggleAttendance(event.event_id)}
-                    className={`px-3 py-1 rounded transition-colors duration-200 ${
-                      isAttending
-                        ? "bg-red-500 text-white hover:bg-red-600"
-                        : "bg-green-500 text-white hover:bg-green-600"
-                    }`}
-                  >
-                    {isAttending ? "Unattend" : "Attend"}
-                  </button>
-
-                  <button
-                    onClick={() => handleShowAttendees(event.event_id)}
-                    className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors duration-200"
-                  >
-                    View Attendees
-                  </button>
-
-                  {isAttending && (
-                    <button
-                      onClick={() => handleAddToGoogleCalendar(event)}
-                      className="px-3 py-1 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors duration-200"
-                    >
-                      Add to Google Calendar
-                    </button>
-                  )}
-                </div>
-              </div>
-            );
-          })}
+      {/* Past Events */}
+      <h2 className="text-3xl font-bold text-gray-900 my-6 text-center">Past Events</h2>
+      {pastEvents.length === 0 ? (
+        <p className="text-gray-600 text-center">No past events yet.</p>
+      ) : (
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {pastEvents.map((event) => (
+            <EventCard
+              key={event.event_id}
+              event={event}
+              isAttending={attendingIds.includes(event.event_id)}
+              handleToggleAttendance={handleToggleAttendance}
+              handleShowAttendees={handleShowAttendees}
+              handleViewDetails={handleViewDetails}
+              addToGoogleCalendar={handleAddToGoogleCalendar}
+            />
+          ))}
         </div>
       )}
     </div>
-  );
+);
 }
