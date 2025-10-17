@@ -14,7 +14,7 @@ export default function AttendeesPage() {
       try {
         const [attendeeData, eventData] = await Promise.all([
           getEventAttendees(Number(id)),
-          getEventById(Number(id)), // optional if you want event name
+          getEventById(Number(id)),
         ]);
         setAttendees(attendeeData);
         setEventName(eventData?.title || "");
