@@ -69,6 +69,7 @@ export default function UserProfilePage() {
   };
 
   if (!currentUser) return <p className="text-center mt-10">Loading user info...</p>;
+  if (loading) return <p className="text-center mt-10">Loading...</p>;
 
   return (
     <div className="max-w-3xl mx-auto mt-10 p-6 bg-gray-100 rounded-lg shadow">

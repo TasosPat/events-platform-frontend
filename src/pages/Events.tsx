@@ -49,27 +49,6 @@ export default function EventsPage() {
   const handleShowAttendees = (eventId: number) => {
     navigate(`/attendances/events/${eventId}`);
   };
-  
-  const addToGoogleCalendar = async (event: any) => {
-    try {
-      const eventId = event.event_id;
-      const res = await addEventToCalendar(eventId);
-      console.log("Response from backend:", res); 
-      const url = res.url;
-  
-      if (url) {
-        window.open(url, "_blank");
-        alert(`Added "${event.title}" to your Google Calendar!`);
-      } else {
-        alert("Could not get Google Calendar link");
-      }
-      
-    }
-    catch (err) {
-    console.error("Failed to get Google auth URL:", err);
-    alert("Something went wrong while adding to calendar");
-  }
-  };
 
   const handleViewDetails = (eventId: number) => {
     navigate(`/events/${eventId}`);
