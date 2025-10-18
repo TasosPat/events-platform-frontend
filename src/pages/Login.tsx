@@ -7,11 +7,13 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const { setToken } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     setError("");
 
     try {
@@ -20,6 +22,9 @@ export default function LoginPage() {
       navigate("/events"); // redirect after login
     } catch (err: any) {
       setError(err.response?.data?.msg || "Login failed");
+    }
+    finally {
+      setLoading(false);
     }
   };
 
@@ -57,9 +62,10 @@ export default function LoginPage() {
 
           <button
             type="submit"
+            disabled={loading}
             className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition-colors duration-200"
           >
-            Login
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 
