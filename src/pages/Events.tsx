@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getEvents, attendEvent, unattendEvent, addEventToCalendar } from "../services/eventService";
+import { getEvents, attendEvent, unattendEvent  } from "../services/eventService";
 import { getCurrentUser, getMyAttendances } from "../services/userService";
 import { useNavigate } from "react-router-dom";
 import { handleAddToGoogleCalendar } from "../components/googleCalendarHandler"

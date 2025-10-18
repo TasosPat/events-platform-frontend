@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 import { createEvent } from "../services/eventService";
 
 export default function CreateEventPage() {
-  const { token, currentUser } = useAuth();
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");

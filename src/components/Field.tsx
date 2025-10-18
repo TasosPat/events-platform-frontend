@@ -27,11 +27,6 @@ interface FieldProps {
         </p>
       );
     }
-
-    let inputValue = value;
-  if (type === "date" && value) {
-    inputValue = new Date(value as string).toISOString().split("T")[0];
-  }
   
     if (textarea) {
       return (
