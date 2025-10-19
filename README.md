@@ -72,3 +72,13 @@ src/
 
 The frontend is fully deployed and connected to the live backend:
 👉 https://events-platform-backend-ny5b.onrender.com/api/
+
+*Demo Accounts*
+
+In order to fully test the functionality of the  app you'll need the following login credentials:
+
+Staff account:  email: alice@test.com
+                password: password123
+
+ User Account:  email: bob@test.com
+                password: password123
