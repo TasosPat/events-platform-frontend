@@ -1,46 +1,74 @@
-# Getting Started with Create React App
+🎨 Community Events Platform (Frontend)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The frontend for the Community Events Platform, a web application where users can explore, attend, and manage community events.
 
-## Available Scripts
+🌐 Live Website
 
-In the project directory, you can run:
+🔗 Production URL:
+https://events-platform-frontend.netlify.app/
 
-### `npm start`
+🧠 Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+This React + TypeScript frontend allows users to:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Browse upcoming events
 
-### `npm test`
+Log in / sign up via Firebase Authentication
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+View event details and attendance info
 
-### `npm run build`
+Staff users can create and edit events
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+🛠️ Tech Stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+React (Create React App)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+TypeScript
 
-### `npm run eject`
+Tailwind CSS for styling and responsive design
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Firebase Auth for user authentication
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Axios for API requests
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Deployed on Netlify
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+⚙️ Environment Variables
 
-## Learn More
+The frontend only requires one environment variable:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+REACT_APP_API_URL=https://events-platform-backend-ny5b.onrender.com/api
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+
+⚠️ This is already configured in the deployed version — you do not need to set it up to test the live app.
+
+▶️ Running Locally (Optional)
+
+If you want to run the project locally:
+
+git clone https://github.com/TasosPat/events-platform-frontend
+cd events-platform-frontend
+npm install
+npm start
+
+
+Then create a .env file in the root with:
+
+REACT_APP_API_URL=http://localhost:3000/api
+
+
+Make sure your backend is running locally if you want full functionality.
+
+🧩 Folder Structure
+src/
+ ┣ components/      → Reusable UI components (EventCard, Navbar, etc.)
+ ┣ pages/           → Main app pages (HomePage, EventsPage, LoginPage, etc.)
+ ┣ context/         → Auth context and provider
+ ┣ services/        → API calls (axios)
+ ┣ types/           → TypeScript interfaces
+ ┗ App.tsx          → Root application file
+
+✅ Status
+
+The frontend is fully deployed and connected to the live backend:
+👉 https://events-platform-backend-ny5b.onrender.com/api/
